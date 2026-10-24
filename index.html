@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examination Results Portal - Demo</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #ffffff;
+            color: #333;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            border-left: 1px solid #ddd;
+            border-right: 1px solid #ddd;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header */
+        .header {
+            background-color: #930077;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+        }
+
+        .logo-placeholder {
+            width: 70px;
+            height: 70px;
+            flex-shrink: 0;
+            margin-right: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .header-text {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .header-text h1 {
+            font-size: 22px;
+            font-weight: normal;
+            margin-bottom: 5px;
+        }
+
+        .header-text h2 {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .demo-notice {
+            text-align: center;
+            padding: 7px;
+            background: #fff3cd;
+            color: #664d03;
+            font-size: 12px;
+        }
+
+        /* Main Content */
+        .content {
+            padding: 30px 20px;
+            flex-grow: 1;
+            text-align: center;
+        }
+
+        .content h3 {
+            color: #930077;
+            font-size: 18px;
+            font-weight: normal;
+            margin-bottom: 15px;
+        }
+
+        .instruction {
+            font-size: 14px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        /* Form */
+        .form-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-group {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            align-items: start;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            text-align: right;
+            padding: 6px 15px 0 0;
+            font-size: 14px;
+        }
+
+        .field-wrap {
+            width: 100%;
+            text-align: left;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 5px;
+            border: 1px solid #a9a9a9;
+            font-size: 14px;
+            height: 28px;
+            border-radius: 0;
+        }
+
+        .form-group input:focus,
+        .captcha-box input:focus {
+            outline: 1px solid #930077;
+            border-color: #930077;
+        }
+
+        /* Red validation messages */
+        .error-message {
+            display: block;
+            color: #d00000;
+            font-size: 12px;
+            margin-top: 5px;
+            line-height: 1.4;
+        }
+
+        .error-message:empty {
+            display: none;
+        }
+
+        .invalid-input {
+            border: 1px solid #d00000 !important;
+        }
+
+        .captcha-instruction {
+            font-size: 14px;
+            margin: 20px 0 10px;
+        }
+
+        .captcha-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 5px;
+        }
+
+        .captcha-image {
+            font-family: "Comic Sans MS", cursive, sans-serif;
+            font-size: 22px;
+            color: #000080;
+            font-weight: bold;
+            letter-spacing: 2px;
+            user-select: none;
+        }
+
+        .captcha-box input {
+            width: 140px;
+            padding: 5px;
+            border: 1px solid #a9a9a9;
+            height: 28px;
+        }
+
+        .captcha-subtext {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 20px;
+        }
+
+        /* Buttons */
+        .button-group {
+            margin-top: 10px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            border: none;
+            padding: 6px 15px;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 3px;
+            border-radius: 3px;
+        }
+
+        .btn-clear {
+            background-color: #00004d;
+        }
+
+        .btn-submit {
+            background-color: #930077;
+        }
+
+        .btn:hover {
+            opacity: 0.85;
+        }
+
+        .home-link {
+            color: #0000ee;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: auto;
+        }
+
+        .disclaimer-header {
+            background-color: #930077;
+            color: #ffffff;
+            text-align: center;
+            padding: 5px;
+            font-size: 14px;
+        }
+
+        .disclaimer-text {
+            background-color: #f2f2f2;
+            padding: 10px 15px;
+            font-size: 10px;
+            color: #333;
+            line-height: 1.4;
+            text-align: justify;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 600px) {
+            .header {
+                padding: 12px;
+            }
+
+            .logo-placeholder {
+                width: 55px;
+                height: 55px;
+                margin-right: 10px;
+            }
+
+            .header-text h1 {
+                font-size: 16px;
+            }
+
+            .header-text h2 {
+                font-size: 12px;
+            }
+
+            .content {
+                padding: 25px 12px;
+            }
+
+            .instruction {
+                line-height: 1.5;
+            }
+
+            .form-group {
+                grid-template-columns: 40% 60%;
+            }
+
+            .form-group label {
+                padding-right: 10px;
+            }
+
+            .captcha-box {
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <!-- Header -->
+        <header class="header">
+            <div class="logo-placeholder">
+                <img src="logo.png" alt="Demo logo">
+            </div>
+
+            <div class="header-text">
+                <h1>The Institute of Chartered Accountants of India</h1>
+                <h2>Examination Results, September 2026</h2>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="content">
+            <h3>Intermediate Examination Results</h3>
+
+            <p class="instruction">
+                Enter your 6 Digit Roll Number and Registration No.
+                to check your results
+            </p>
+
+            <form class="form-container" id="resultForm" novalidate>
+
+                <!-- Roll Number -->
+                <div class="form-group">
+                    <label for="rollno">Roll No.</label>
+
+                    <div class="field-wrap">
+                        <input
+                            type="text"
+                            id="rollno"
+                            name="rollno"
+                            maxlength="6"
+                            inputmode="numeric"
+                            autocomplete="off"
+                            aria-describedby="rollError"
+                        >
+
+                        <span
+                            class="error-message"
+                            id="rollError"
+                            role="alert"
+                        ></span>
+                    </div>
+                </div>
+
+                <!-- Registration Number -->
+                <div class="form-group">
+                    <label for="regno">Registration No.</label>
+
+                    <div class="field-wrap">
+                        <input
+                            type="text"
+                            id="regno"
+                            name="regno"
+                            autocomplete="off"
+                            aria-describedby="regError"
+                        >
+
+                        <span
+                            class="error-message"
+                            id="regError"
+                            role="alert"
+                        ></span>
+                    </div>
+                </div>
+
+                <!-- CAPTCHA display for demo -->
+                <p class="captcha-instruction">
+                    Enter the text as shown in the below box
+                </p>
+
+                <div class="captcha-box">
+                    <div class="captcha-image">2gdxf s</div>
+
+                    <input
+                        type="text"
+                        id="captcha"
+                        name="captcha"
+                        aria-label="Enter the displayed text"
+                        autocomplete="off"
+                    >
+                </div>
+
+                <p class="captcha-subtext">
+                    (Demo CAPTCHA display)
+                </p>
+
+                <!-- Buttons -->
+                <div class="button-group">
+                    <button
+                        class="btn btn-clear"
+                        type="reset"
+                    >
+                        CLEAR
+                    </button>
+
+                    <button
+                        class="btn btn-submit"
+                        type="submit"
+                    >
+                        SUBMIT
+                    </button>
+                </div>
+
+                <a
+                    href="#"
+                    class="home-link"
+                    id="homeLink"
+                >Home</a>
+
+            </form>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="disclaimer-header">
+                Disclaimer
+            </div>
+
+            <div class="disclaimer-text">
+                This is a demonstration interface and is not an official
+                ICAI results portal. It does not verify examination
+                credentials or retrieve official examination results.
+                For authentic examination information, visit the official
+                ICAI website.
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- Validation Script -->
+    <script>
+        const form = document.getElementById("resultForm");
+
+        const rollInput = document.getElementById("rollno");
+        const regInput = document.getElementById("regno");
+
+        const rollError = document.getElementById("rollError");
+        const regError = document.getElementById("regError");
+
+        // Demo-only validation values
+        const validRollNo = "249537";
+        const validRegNo = "WRO0840340";
+
+        // Destination page
+        const nextPage =
+            "https://indiaicai2026-dot.github.io/Icaires/";
+
+        function clearErrors() {
+            rollError.textContent = "";
+            regError.textContent = "";
+
+            rollInput.classList.remove("invalid-input");
+            regInput.classList.remove("invalid-input");
+
+            rollInput.removeAttribute("aria-invalid");
+            regInput.removeAttribute("aria-invalid");
+        }
+
+        function showError(input, errorElement, message) {
+            errorElement.textContent = message;
+            input.classList.add("invalid-input");
+            input.setAttribute("aria-invalid", "true");
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            clearErrors();
+
+            const roll = rollInput.value.trim();
+            const reg = regInput.value.trim().toUpperCase();
+
+            let isValid = true;
+
+            if (roll !== validRollNo) {
+                showError(
+                    rollInput,
+                    rollError,
+                    "Invalid Roll No."
+                );
+
+                isValid = false;
+            }
+
+            if (reg !== validRegNo) {
+                showError(
+                    regInput,
+                    regError,
+                    "Invalid Registration No."
+                );
+
+                isValid = false;
+            }
+
+            if (isValid) {
+                window.location.href = nextPage;
+            }
+        });
+
+        // Clear the roll-number error when edited
+        rollInput.addEventListener("input", function () {
+            rollError.textContent = "";
+            rollInput.classList.remove("invalid-input");
+            rollInput.removeAttribute("aria-invalid");
+        });
+
+        // Clear the registration error when edited
+        regInput.addEventListener("input", function () {
+            regError.textContent = "";
+            regInput.classList.remove("invalid-input");
+            regInput.removeAttribute("aria-invalid");
+        });
+
+        // CLEAR resets all form fields and errors
+        form.addEventListener("reset", function () {
+            clearErrors();
+        });
+
+        // Home resets the demo form
+        document.getElementById("homeLink").addEventListener(
+            "click",
+            function (event) {
+                event.preventDefault();
+                form.reset();
+            }
+        );
+    </script>
+
+</body>
+</html>
